@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import io.weaviate.client6.v1.api.Authorization;
-import io.weaviate.client6.v1.api.Config;
 import io.weaviate.client6.v1.api.WeaviateClient;
 import io.weaviate.client6.v1.api.collections.query.Metadata;
 import io.weaviate.client6.v1.api.collections.query.SearchOperator;
@@ -24,11 +23,12 @@ public class App {
         // ====================================================================
         // Connecting to the Weavite instance
         // ====================================================================
-        try (final WeaviateClient client = new WeaviateClient(Config.of(
-                "https", conn -> conn
+        try (final WeaviateClient client = WeaviateClient.custom(
+                conn -> conn
+                        .scheme("https")
                         .httpHost("bvsswf2qxwcrmgngqzwbw.c0.europe-west3.gcp.weaviate.cloud").httpPort(443)
                         .grpcHost("grpc-bvsswf2qxwcrmgngqzwbw.c0.europe-west3.gcp.weaviate.cloud").grpcPort(443)
-                        .authorization(Authorization.apiKey(API_KEY))))) {
+                        .authorization(Authorization.apiKey(API_KEY)))) {
 
             final var songs = client.collections.use("EminemSongs");
 
