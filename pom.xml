@@ -15,9 +15,20 @@
   </properties>
   <dependencies>
     <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+    <dependency>
+        <groupId>io.grpc</groupId>
+        <artifactId>grpc-protobuf</artifactId>
+        <version>1.58.0</version>
+    </dependency>
+    <dependency>
         <groupId>io.weaviate</groupId>
         <artifactId>client6</artifactId>
-        <version>6.0.0-beta2</version>
+        <version>6.0.0-SNAPSHOT</version>
+        <classifier>all</classifier>
     </dependency>
     <dependency>
         <groupId>org.slf4j</groupId>
@@ -26,6 +37,19 @@
         <scope>runtime</scope>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <name>Central Portal Snapshots</name>
+      <id>central-portal-snapshots</id>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
   <build>
       <finalName>soujava</finalName>
       <plugins>
@@ -34,9 +58,9 @@
             <artifactId>maven-assembly-plugin</artifactId>
             <version>3.1.1</version>
             <configuration>
-                <descriptors>
-                    <descriptor>src/assembly/fatjar.xml</descriptor>
-                </descriptors>
+                <descriptorRefs>
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
                 <archive>
                     <manifest>
                         <mainClass>com.dyma.App</mainClass>

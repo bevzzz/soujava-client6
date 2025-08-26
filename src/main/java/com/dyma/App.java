@@ -1,9 +1,8 @@
 package com.dyma;
 
-import java.io.IOException;
 import java.util.List;
 
-import io.weaviate.client6.v1.api.Authorization;
+import io.weaviate.client6.v1.api.Authentication;
 import io.weaviate.client6.v1.api.WeaviateClient;
 import io.weaviate.client6.v1.api.collections.query.Metadata;
 import io.weaviate.client6.v1.api.collections.query.SearchOperator;
@@ -28,7 +27,7 @@ public class App {
                         .scheme("https")
                         .httpHost("bvsswf2qxwcrmgngqzwbw.c0.europe-west3.gcp.weaviate.cloud").httpPort(443)
                         .grpcHost("grpc-bvsswf2qxwcrmgngqzwbw.c0.europe-west3.gcp.weaviate.cloud").grpcPort(443)
-                        .authorization(Authorization.apiKey(API_KEY)))) {
+                        .authentication(Authentication.apiKey(API_KEY)))) {
 
             final var songs = client.collections.use("EminemSongs");
 
@@ -58,7 +57,7 @@ public class App {
                             .queryProperties("title")
                             .searchOperator(SearchOperator.and())
                             .autocut(1)
-                            .returnMetadata(Metadata.ID, Metadata.VECTOR));
+                            .returnMetadata(Metadata.UUID, Metadata.VECTOR));
 
             var titles = rapGodSongs.objects().stream().map(
                     song -> (String) song.properties().get("title")).toList();
@@ -72,7 +71,7 @@ public class App {
                             .queryProperties("title")
                             .searchOperator(SearchOperator.and())
                             .autocut(2)
-                            .returnMetadata(Metadata.ID, Metadata.VECTOR));
+                            .returnMetadata(Metadata.UUID, Metadata.VECTOR));
 
             titles = rapGodSongs.objects().stream().map(
                     song -> (String) song.properties().get("title")).toList();
@@ -169,7 +168,7 @@ public class App {
                     \n\n
                     ====================================================================
                             """);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
